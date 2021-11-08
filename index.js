@@ -1,6 +1,7 @@
 import express from 'express';
 
 const app = express();
+app.use(express.json());
 
 let persons = [
   {
@@ -55,6 +56,25 @@ app.delete('/api/persons/:id', (req, res) => {
   persons = persons.filter((person) => person.id !== id);
 
   res.status(204).end();
+});
+
+const getRandomInt = (min = 0, max = 1000000) => {
+  const minCeil = Math.ceil(min);
+  const maxFloor = Math.floor(max);
+  return Math.floor(Math.random() * (maxFloor - minCeil + 1)) + minCeil;
+};
+
+app.post('/api/persons', (req, res) => {
+  const body = req.body;
+  const newPerson = {
+    id: getRandomInt(),
+    name: body.name,
+    number: body.number,
+  };
+
+  persons = persons.concat(newPerson);
+
+  res.json(newPerson);
 });
 
 const PORT = 3001;
