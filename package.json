@@ -1,0 +1,28 @@
+{
+  "name": "fullstackopen-2021-phonebook-backend",
+  "version": "1.0.0",
+  "description": "The node server related to the phonebook exercise from the fullstackopen 2021 course.",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon index.js",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dan-Lucian/fullstackopen-2021-phonebook-backend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Dan-Lucian/fullstackopen-2021-phonebook-backend/issues"
+  },
+  "homepage": "https://github.com/Dan-Lucian/fullstackopen-2021-phonebook-backend#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.14"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
