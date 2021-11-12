@@ -100,7 +100,10 @@ app.post('/api/persons', (req, res) => {
   res.json(newPerson);
 });
 
-const PORT = 3001;
+let PORT = process.env.PORT;
+if (PORT == null || PORT == '') {
+  PORT = 8000;
+}
 app.listen(PORT, () => {
   console.log(`Server is listening on port ${PORT}`);
 });
