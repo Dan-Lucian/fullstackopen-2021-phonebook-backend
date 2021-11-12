@@ -1,6 +1,5 @@
 import express from 'express';
 import morgan from 'morgan';
-import cors from 'cors';
 
 morgan.token('body', (req) => {
   if (req.method === 'POST') {
@@ -8,17 +7,12 @@ morgan.token('body', (req) => {
   }
 });
 
-const corsOptions = {
-  origin: 'http://localhost:3000',
-  optionsSuccessStatus: 200, // some legacy browsers (IE11, various SmartTVs) choke on 204
-};
-
 const app = express();
 
-app.use(cors(corsOptions));
 app.use(
   morgan(':method :url :status :res[content-length] - :response-time ms :body')
 );
+app.use(express.static('build'));
 app.use(express.json());
 
 let persons = [
