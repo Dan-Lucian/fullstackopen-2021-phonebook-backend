@@ -33,15 +33,16 @@ app.get('/api/persons', (req, res) => {
   });
 });
 
-app.get('/api/persons/:id', (req, res) => {
-  const id = Number(req.params.id);
-  const foundPerson = persons.find((person) => person.id === id);
-
-  if (foundPerson) {
-    res.json(foundPerson);
-  } else {
-    res.status(404).end();
-  }
+app.get('/api/persons/:id', (req, res, next) => {
+  Person.findById(req.params.id)
+    .then((foundPerson) => {
+      if (foundPerson) {
+        res.json(foundPerson);
+      } else {
+        res.status(404).end();
+      }
+    })
+    .catch((err) => next(err));
 });
 
 app.delete('/api/persons/:id', (req, res, next) => {
@@ -83,6 +84,13 @@ app.put('/api/persons/:id', (req, res, next) => {
     })
     .catch((err) => next(err));
 });
+
+const unknownEndpoint = (req, res) => {
+  res.status(404).send({ error: 'unknown endpoint' });
+};
+
+// handler of reqs with unknown endpoint
+app.use(unknownEndpoint);
 
 const errorHandler = (err, req, res, next) => {
   console.error(err.message);
