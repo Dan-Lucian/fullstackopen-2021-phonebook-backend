@@ -70,15 +70,25 @@ app.post('/api/persons', (req, res) => {
   });
 });
 
-// app.put('/api/persons/:id', (req, res) => {
+app.put('/api/persons/:id', (req, res, next) => {
+  const body = req.body;
+  const person = {
+    name: body.name,
+    phoneNumber: body.phoneNumber,
+  };
 
-// })
+  Person.findByIdAndUpdate(req.params.id, person, { new: true })
+    .then((updatedPerson) => {
+      res.json(updatedPerson);
+    })
+    .catch((err) => next(err));
+});
 
-const errorHandler = (error, request, response, next) => {
-  console.error(error.message);
+const errorHandler = (err, req, res, next) => {
+  console.error(err.message);
 
-  if (error.name === 'CastError') {
-    return response.status(400).send({ error: 'malformatted id' });
+  if (err.name === 'CastError') {
+    return res.status(400).send({ error: 'malformatted id' });
   }
 
   next(error);
