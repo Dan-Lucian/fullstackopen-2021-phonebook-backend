@@ -27,3 +27,13 @@ Content-Type: application/json
 }
 ###
 
+PUT  http://localhost:8000/api/persons
+Content-Type: application/json
+
+{
+  "name": "Dan",
+  "phoneNumber": "123123",
+  "id": null,
+}
+###
+
