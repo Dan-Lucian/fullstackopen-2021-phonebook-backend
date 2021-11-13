@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "nodemon index.js",
     "start": "node index.js",
-    "build:ui": "cd ../fullstackopen-2021-exercises/part2/phonebook && npm run build --prod && cp -r build ../../../fullstackopen-2021-phonebook-backend",
+    "build:ui": "rm -r build && cd ../fullstackopen-2021-exercises/part2/phonebook && npm run build --prod && cp -r build ../../../fullstackopen-2021-phonebook-backend",
     "logs:prod": "heroku logs --app afternoon-falls-38174 --tail"
   },
   "repository": {
