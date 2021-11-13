@@ -14,12 +14,12 @@ POST  http://localhost:8000/api/persons
 Content-Type: application/json
 
 {
-  "number": 123,
-  "name": "Dan"
+  "phoneNumber": "123",
+  "name": "Daaaan"
 }
 ###
 
-POST  http://localhost:3001/api/persons
+POST  http://localhost:8000/api/persons
 Content-Type: application/json
 
 {

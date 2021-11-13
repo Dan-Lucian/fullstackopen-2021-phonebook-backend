@@ -51,35 +51,22 @@ app.delete('/api/persons/:id', (req, res) => {
   res.status(204).end();
 });
 
-const getRandomInt = (min = 0, max = 1000000) => {
-  const minCeil = Math.ceil(min);
-  const maxFloor = Math.floor(max);
-  return Math.floor(Math.random() * (maxFloor - minCeil + 1)) + minCeil;
-};
-
 app.post('/api/persons', (req, res) => {
   const body = req.body;
 
-  if (!body.name || !body.number) {
+  if (!body.name || !body.phoneNumber) {
     res.status(400).json({ error: 'incomplete person info' });
     return;
   }
 
-  const foundName = persons.find((person) => person.name === body.name);
-  if (foundName) {
-    res.status(400).json({ error: 'name must be unique' });
-    return;
-  }
-
-  const newPerson = {
-    id: getRandomInt(),
+  const newPerson = new Person({
     name: body.name,
-    number: body.number,
-  };
+    phoneNumber: body.phoneNumber,
+  });
 
-  persons = persons.concat(newPerson);
-
-  res.json(newPerson);
+  newPerson.save().then((savedPerson) => {
+    res.json(savedPerson);
+  });
 });
 
 let PORT = process.env.PORT;
