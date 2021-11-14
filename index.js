@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import dotenv from 'dotenv/config';
 import express from 'express';
 import morgan from 'morgan';
@@ -18,13 +19,14 @@ app.use(
 );
 
 app.get('/info', (req, res) => {
-  console.log(req);
-  res.send(
-    `
-      <p>Phonebook has info for ${persons.length} people</p>
-      <p>${new Date()}</p>
-    `
-  );
+  Person.find({}).then(result => {
+    res.send(
+      `
+        <p>Phonebook has info for ${result.length} people</p>
+        <p>${new Date()}</p>
+      `
+    );
+  });
 });
 
 app.get('/api/persons', (req, res) => {
@@ -97,19 +99,20 @@ const errorHandler = (err, req, res, next) => {
   console.error(err.message);
 
   switch (err.name) {
-    case 'CastError':
-      return res.status(400).send({ error: 'malformatted id' });
+  case 'CastError':
+    return res.status(400).send({ error: 'malformatted id' });
 
-    case 'ValidationError':
-      return res.status(400).send({ error: err.message });
+  case 'ValidationError':
+    return res.status(400).send({ error: err.message });
   }
 
-  next(error);
+  next(err);
 };
 app.use(errorHandler);
 
+// eslint-disable-next-line no-undef
 let PORT = process.env.PORT;
-if (PORT == null || PORT == '') {
+if (PORT === null || PORT === '') {
   PORT = 3001;
 }
 app.listen(PORT, () => {

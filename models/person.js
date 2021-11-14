@@ -1,12 +1,14 @@
+/* eslint-disable linebreak-style */
 import mongoose from 'mongoose';
 import uniqueValidator from 'mongoose-unique-validator';
 
+// eslint-disable-next-line no-undef
 const url = process.env.MONGODB_URI;
 
 console.log(`Connecting to ${url}`);
 mongoose
   .connect(url)
-  .then((res) => {
+  .then(() => {
     console.log('Connected to MongoDB');
   })
   .catch((err) => {
