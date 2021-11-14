@@ -76,7 +76,10 @@ app.put('/api/persons/:id', (req, res, next) => {
     phoneNumber: body.phoneNumber,
   };
 
-  Person.findByIdAndUpdate(req.params.id, person, { new: true })
+  Person.findOneAndUpdate({ _id: req.params.id }, person, {
+    new: true,
+    runValidators: true,
+  })
     .then((updatedPerson) => {
       res.json(updatedPerson);
     })
@@ -107,7 +110,7 @@ app.use(errorHandler);
 
 let PORT = process.env.PORT;
 if (PORT == null || PORT == '') {
-  PORT = 8000;
+  PORT = 3001;
 }
 app.listen(PORT, () => {
   console.log(`Server is listening on port ${PORT}`);
