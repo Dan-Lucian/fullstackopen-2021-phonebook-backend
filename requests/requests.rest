@@ -15,7 +15,7 @@ Content-Type: application/json
 
 {
   "phoneNumber": "123",
-  "name": "Daaaan"
+  "name": "Dan"
 }
 ###
 
@@ -32,8 +32,7 @@ Content-Type: application/json
 
 {
   "name": "Dan",
-  "phoneNumber": "123123",
-  "id": null,
+  "phoneNumber": "123123"
 }
 ###
 

@@ -11,11 +11,11 @@ morgan.token('body', (req) => {
 
 const app = express();
 
+app.use(express.static('build'));
+app.use(express.json());
 app.use(
   morgan(':method :url :status :res[content-length] - :response-time ms :body')
 );
-app.use(express.static('build'));
-app.use(express.json());
 
 app.get('/info', (req, res) => {
   console.log(req);
@@ -53,22 +53,20 @@ app.delete('/api/persons/:id', (req, res, next) => {
     .catch((err) => next(err));
 });
 
-app.post('/api/persons', (req, res) => {
+app.post('/api/persons', (req, res, next) => {
   const body = req.body;
-
-  if (!body.name || !body.phoneNumber) {
-    res.status(400).json({ error: 'incomplete person info' });
-    return;
-  }
 
   const newPerson = new Person({
     name: body.name,
     phoneNumber: body.phoneNumber,
   });
 
-  newPerson.save().then((savedPerson) => {
-    res.json(savedPerson);
-  });
+  newPerson
+    .save()
+    .then((savedPerson) => {
+      res.json(savedPerson);
+    })
+    .catch((err) => next(err));
 });
 
 app.put('/api/persons/:id', (req, res, next) => {
@@ -95,8 +93,12 @@ app.use(unknownEndpoint);
 const errorHandler = (err, req, res, next) => {
   console.error(err.message);
 
-  if (err.name === 'CastError') {
-    return res.status(400).send({ error: 'malformatted id' });
+  switch (err.name) {
+    case 'CastError':
+      return res.status(400).send({ error: 'malformatted id' });
+
+    case 'ValidationError':
+      return res.status(400).send({ error: err.message });
   }
 
   next(error);
